@@ -1,0 +1,22 @@
+#score-container{
+    border: solid ascii orange;
+
+}
+
+#scores-header{
+    padding: 1 1;
+    margin: 0 2;
+
+    text-align: center;
+
+    border: solid ascii orange;
+}
+
+#cores-table{}
+
+#back-btn{
+    dock: bottom;
+
+    margin: 1 2;
+    width: 100%;
+}

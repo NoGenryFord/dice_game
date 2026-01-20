@@ -3,16 +3,24 @@ from textual.app import App, ComposeResult
 from textual.widgets import Header, Footer, Static, Button
 from textual.containers import ScrollableContainer
 
+from ui.score_screen import ScoreScreen
+from ui.game_screen import GameScreen
+
 
 class MainMenu(Static):
     """Main menu widget."""
 
+    @on(Button.Pressed, "#start-game-btn")
+    def handle_start_game_button(self) -> None:
+        self.app.push_screen(GameScreen())
+
+    @on(Button.Pressed, "#view-scores-btn")
+    def handle_view_scores_button(self) -> None:
+        self.app.push_screen(ScoreScreen())
+
     @on(Button.Pressed, "#quit-btn")
     def handle_exit_button(self) -> None:
         self.app.exit()
-
-    @on(Button.Pressed, "#view-scores-btn")
-    def handle_view_scores_button(self) -> None: ...
 
     def compose(self) -> ComposeResult:
         yield Button("Start Game", id="start-game-btn", variant="primary")
@@ -37,5 +45,5 @@ class DiceGame(App):
 
 
 if __name__ == "__main__":
-    app = DiceGame()
+    app = DiceGame(watch_css=True)
     app.run()
