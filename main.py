@@ -11,6 +11,9 @@ class MainMenu(Static):
     def handle_exit_button(self) -> None:
         self.app.exit()
 
+    @on(Button.Pressed, "#view-scores-btn")
+    def handle_view_scores_button(self) -> None: ...
+
     def compose(self) -> ComposeResult:
         yield Button("Start Game", id="start-game-btn", variant="primary")
         yield Button("View Scores", id="view-scores-btn", variant="primary")
