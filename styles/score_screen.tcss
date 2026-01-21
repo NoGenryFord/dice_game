@@ -12,7 +12,12 @@
     border: solid ascii orange;
 }
 
-#cores-table{}
+#scores-table-container{
+    padding: 1 1;
+    margin: 0 2;
+
+    border: solid ascii orange;
+}
 
 #back-btn{
     dock: bottom;

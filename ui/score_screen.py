@@ -34,5 +34,6 @@ class ScoreScreen(Screen):
 
     def on_mount(self) -> None:
         table = self.query_one(DataTable)
-        table.add_columns("Дата", "Игрок", "Количество раундов", "Итоговый счет")
-        table.add_rows(self.score_parser)
+        table.add_columns("#", "Дата", "Игрок", "Количество раундов", "Итоговый счет")
+        for i, row in enumerate(self.score_parser, start=1):
+            table.add_row(i, *row)
