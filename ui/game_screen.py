@@ -1,5 +1,5 @@
 from textual import on
-from textual.app import App, ComposeResult
+from textual.app import ComposeResult
 from textual.widgets import Header, Footer, Static, Button
 from textual.screen import Screen
 
