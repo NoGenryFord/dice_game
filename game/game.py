@@ -26,18 +26,25 @@ class Game:
         print(f"You are playing against {self.computer_player.name}.")
 
     def set_round_winner(self):
+
+        # if player win
         if self.live_player.last_roll > self.computer_player.last_roll:
             self.live_player.game_score += (
                 self.live_player.last_roll - self.computer_player.last_roll
             )
             print(f"\n{self.live_player.name} wins this round!\n")
+        # if computer win
         elif self.live_player.last_roll < self.computer_player.last_roll:
-            self.computer_player.game_score += (
-                self.computer_player.last_roll - self.live_player.last_roll
+            self.live_player.game_score += (
+                self.live_player.last_roll - self.computer_player.last_roll
             )
             print(f"\n{self.computer_player.name} wins this round!\n")
         else:
             print("\nThis round is a tie!\n")
+
+        print(
+            f"Current Scores:\n{self.live_player.name}: {self.live_player.game_score}\n{self.computer_player.name}: {self.computer_player.game_score}\n"
+        )
 
     def game_proccess(self, rounds_limit: int = 5):
 
@@ -83,6 +90,7 @@ class Game:
                 break
 
             else:
+
                 print(f"Preparing for round {self.round + 1}...")
 
 
