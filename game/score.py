@@ -16,10 +16,10 @@ class FileController:
             data = []
 
         new_result = {
-            "Дата": date,
-            "Игрок": player,
-            "Количество раундов": rounds,
-            "Итоговый счет": score,
+            "Date": date,
+            "Player": player,
+            "Rounds": rounds,
+            "Score": score,
         }
         data.append(new_result)
         with open(file=file_path, mode="w", encoding="utf-8") as file:
@@ -34,10 +34,10 @@ class FileController:
             for item in data:
                 result.append(
                     (
-                        item["Дата"],
-                        item["Игрок"],
-                        item["Количество раундов"],
-                        item["Итоговый счет"],
+                        item["Date"],
+                        item["Player"],
+                        item["Rounds"],
+                        item["Score"],
                     )
                 )
 
@@ -45,6 +45,4 @@ class FileController:
 
 
 if __name__ == "__main__":
-    fc = FileController()
-
-    print(fc.read_results())
+    ...
