@@ -11,3 +11,5 @@ wheels/
 
 #MacOS files
 .DS_Store
+
+.scores/games_results.json

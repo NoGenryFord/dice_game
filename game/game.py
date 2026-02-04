@@ -1,4 +1,7 @@
+from datetime import datetime
+
 from models import LivePlayer, ComputerPlayer
+from score import FileController
 
 
 class Game:
@@ -66,6 +69,15 @@ class Game:
                     print(f"{self.live_player.name} wins the game!")
                 elif self.live_player.game_score < self.computer_player.game_score:
                     print(f"{self.computer_player.name} wins the game!")
+
+                # Save the game result
+                fc = FileController()
+                fc.save_result(
+                    date=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                    player=self.live_player.name,
+                    rounds=self.round,
+                    score=self.live_player.game_score,
+                )
 
                 input("Press Enter to exit...")
                 break
