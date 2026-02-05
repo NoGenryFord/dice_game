@@ -1,102 +1,88 @@
 from datetime import datetime
+from dataclasses import dataclass
 
-from models import LivePlayer, ComputerPlayer
-from score import FileController
+from .models import LivePlayer, ComputerPlayer
+from .score import FileController
+
+
+@dataclass
+class RoundState:
+    round: int
+    player_roll: int
+    computer_roll: int
+    player_score: int
+    computer_score: int
+    round_winner: str | None
 
 
 class Game:
     __round: int
     __rounds_limit: int
 
-    def __init__(self):
+    def __init__(self, rounds_limit: int = 5):
         self.__round = 0
-
-    @property
-    def round(self) -> int:
-        return self.__round
-
-    @round.setter
-    def round(self, value: int):
-        self.__round = value
-
-    def setup(self):
+        self.__rounds_limit = rounds_limit
         self.live_player = LivePlayer()
         self.computer_player = ComputerPlayer()
-        print(f"Welcome {self.live_player.name}!")
-        print(f"You are playing against {self.computer_player.name}.")
 
-    def set_round_winner(self):
+    def roll_round(self) -> RoundState:
+        self.round += 1
+        self.live_player.roll_dice()
+        self.computer_player.roll_dice()
 
-        # if player win
         if self.live_player.last_roll > self.computer_player.last_roll:
             self.live_player.game_score += (
                 self.live_player.last_roll - self.computer_player.last_roll
             )
-            print(f"\n{self.live_player.name} wins this round!\n")
-        # if computer win
+            winner = "player"
         elif self.live_player.last_roll < self.computer_player.last_roll:
             self.live_player.game_score += (
                 self.live_player.last_roll - self.computer_player.last_roll
             )
-            print(f"\n{self.computer_player.name} wins this round!\n")
+            winner = "computer"
         else:
-            print("\nThis round is a tie!\n")
+            winner = None
 
-        print(
-            f"Current Scores:\n{self.live_player.name}: {self.live_player.game_score}\n{self.computer_player.name}: {self.computer_player.game_score}\n"
+        return RoundState(
+            round=self.round,
+            player_roll=self.live_player.last_roll,
+            computer_roll=self.computer_player.last_roll,
+            player_score=self.live_player.game_score,
+            computer_score=self.computer_player.game_score,
+            round_winner=winner,
         )
 
-    def game_proccess(self, rounds_limit: int = 5):
+    def is_finished(self) -> bool:
+        return self.round >= self.__rounds_limit
 
-        self.setup()
+    def final_winner(self) -> str | None:
+        if self.live_player.game_score > self.computer_player.game_score:
+            return "player"
+        elif self.live_player.game_score < self.computer_player.game_score:
+            return "computer"
+        else:
+            return None
 
-        while True:
-            self.round += 1
-            print(f"Round {self.round} begins!")
-
-            print(f"{self.live_player.name} is rolling the dice...")
-            input("Press Enter to roll the dice...")
-            self.live_player.roll_dice()
-            print(
-                f"\n {self.live_player.name} rolled a {self.live_player.last_roll}. \n"
-            )
-
-            print(f"{self.computer_player.name} is rolling the dice...")
-            self.computer_player.roll_dice()
-            print(
-                f"\n {self.computer_player.name} rolled a {self.computer_player.last_roll}. \n"
-            )
-            self.set_round_winner()
-            if self.round > rounds_limit - 1:
-                print("Game over!")
-                print(
-                    f"Final Scores:\n{self.live_player.name}: {self.live_player.game_score}\n{self.computer_player.name}: {self.computer_player.game_score}\n"
-                )
-                if self.live_player.game_score > self.computer_player.game_score:
-                    print(f"{self.live_player.name} wins the game!")
-                elif self.live_player.game_score < self.computer_player.game_score:
-                    print(f"{self.computer_player.name} wins the game!")
-
-                # Save the game result
-                fc = FileController()
-                fc.save_result(
-                    date=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                    player=self.live_player.name,
-                    rounds=self.round,
-                    score=self.live_player.game_score,
-                )
-
-                input("Press Enter to exit...")
-                break
-
-            else:
-
-                print(f"Preparing for round {self.round + 1}...")
+    def save_result(self):
+        fc = FileController()
+        fc.save_result(
+            date=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            player=self.live_player.name,
+            rounds=self.round,
+            score=self.live_player.game_score,
+        )
 
 
 def main():
-    game = Game()
-    game.game_proccess()
+    state = RoundState(
+        round=0,
+        player_roll=0,
+        computer_roll=0,
+        player_score=0,
+        computer_score=0,
+        round_winner=None,
+    )
+    print(state)
 
 
 if __name__ == "__main__":
