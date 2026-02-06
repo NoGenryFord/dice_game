@@ -26,7 +26,7 @@ class Game:
         self.computer_player = ComputerPlayer()
 
     def roll_round(self) -> RoundState:
-        self.round += 1
+        self.__round += 1
         self.live_player.roll_dice()
         self.computer_player.roll_dice()
 
@@ -36,15 +36,16 @@ class Game:
             )
             winner = "player"
         elif self.live_player.last_roll < self.computer_player.last_roll:
-            self.live_player.game_score += (
-                self.live_player.last_roll - self.computer_player.last_roll
+            # add points to computer when it wins (positive difference)
+            self.computer_player.game_score += (
+                self.computer_player.last_roll - self.live_player.last_roll
             )
             winner = "computer"
         else:
             winner = None
 
         return RoundState(
-            round=self.round,
+            round=self.__round,
             player_roll=self.live_player.last_roll,
             computer_roll=self.computer_player.last_roll,
             player_score=self.live_player.game_score,
@@ -53,7 +54,7 @@ class Game:
         )
 
     def is_finished(self) -> bool:
-        return self.round >= self.__rounds_limit
+        return self.__round >= self.__rounds_limit
 
     def final_winner(self) -> str | None:
         if self.live_player.game_score > self.computer_player.game_score:
@@ -68,9 +69,13 @@ class Game:
         fc.save_result(
             date=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             player=self.live_player.name,
-            rounds=self.round,
+            rounds=self.__round,
             score=self.live_player.game_score,
         )
+
+    @property
+    def rounds(self) -> int:
+        return self.__round
 
 
 def main():
