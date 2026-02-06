@@ -52,5 +52,11 @@
         "Player": "Player",
         "Rounds": 5,
         "Score": 2
+    },
+    {
+        "Date": "2026-02-06 23:01:26",
+        "Player": "Player",
+        "Rounds": 5,
+        "Score": 6
     }
 ]

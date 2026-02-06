@@ -50,6 +50,10 @@ class GameScreen(Screen):
                 winner_text = "It's a tie!"
 
             class GameOverScreen(Screen):
+                @on(Button.Pressed, "#back-btn")
+                def handle_back_button(self) -> None:
+                    self.app.pop_screen()
+
                 def compose(self) -> ComposeResult:
                     yield ScrollableContainer(
                         Static(f"Game Over! {winner_text}", id="game-over-message"),
