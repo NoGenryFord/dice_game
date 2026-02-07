@@ -53,6 +53,7 @@ class GameScreen(Screen):
                 @on(Button.Pressed, "#back-btn")
                 def handle_back_button(self) -> None:
                     self.app.pop_screen()
+                    self.app.pop_screen()
 
                 def compose(self) -> ComposeResult:
                     yield ScrollableContainer(
