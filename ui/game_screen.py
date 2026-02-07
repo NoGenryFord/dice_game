@@ -49,19 +49,26 @@ class GameScreen(Screen):
             else:
                 winner_text = "It's a tie!"
 
-            class GameOverScreen(Screen):
-                @on(Button.Pressed, "#back-btn")
-                def handle_back_button(self) -> None:
-                    self.app.pop_screen()
-                    self.app.pop_screen()
+            self.show_game_over(winner_text)
 
-                def compose(self) -> ComposeResult:
-                    yield ScrollableContainer(
-                        Static(f"Game Over! {winner_text}", id="game-over-message"),
-                        Button("Exit to Main Menu", id="back-btn", variant="primary"),
-                    )
+    def show_game_over(self, winner_text: str) -> None:
+        """Update current screen to display final results."""
+        self.query_one("#roll-btn", Button).disabled = True
 
-            self.app.push_screen(GameOverScreen())
+        try:
+            self.query_one("#game-header", Static).update("Game Over!")
+        except Exception:
+            pass
+
+        self.query_one("#round-number", Static).update(f"Rounds: {self.game.rounds}")
+        self.query_one("#player-roll", Static).update(
+            f"Player Score: {self.game.live_player.game_score}"
+        )
+        self.query_one("#computer-roll", Static).update(
+            f"Computer Score: {self.game.computer_player.game_score}"
+        )
+        self.query_one("#player-score", Static).update(winner_text)
+        self.query_one("#round-winner", Static).update("-")
 
     def watch_round_state(self, old, new) -> None:
         self.query_one("#round-number", Static).update(f"Round: {new.round}")
