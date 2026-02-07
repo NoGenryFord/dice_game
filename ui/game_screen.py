@@ -2,7 +2,7 @@ from textual import on
 from textual.app import ComposeResult
 from textual.widgets import Header, Footer, Static, Button
 from textual.screen import Screen
-from textual.containers import Container, ScrollableContainer
+from textual.containers import Container
 from textual.reactive import reactive
 
 from game.game import Game, RoundState

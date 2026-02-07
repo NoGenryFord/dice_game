@@ -4,6 +4,8 @@ from textual.widgets import Header, Footer, Static, Button, DataTable
 from textual.containers import ScrollableContainer, Container
 from textual.screen import Screen
 
+# from textual.reactive import reactive
+
 
 from game.score import FileController
 
@@ -14,7 +16,6 @@ class ScoreScreen(Screen):
     CSS_PATH = "../styles/score_screen.tcss"
 
     file_controller = FileController()
-    score_parser = file_controller.read_results()
 
     @on(Button.Pressed, "#back-btn")
     def handle_back_button(self) -> None:
@@ -33,6 +34,8 @@ class ScoreScreen(Screen):
         yield Footer()
 
     def on_mount(self) -> None:
+        self.score_parser = self.file_controller.read_results()
+
         table = self.query_one(DataTable)
         table.add_columns("#", "Date", "Player", "Rounds", "Score")
         for i, row in enumerate(self.score_parser, start=1):
