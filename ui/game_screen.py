@@ -6,6 +6,7 @@ from textual.containers import Container
 from textual.reactive import reactive
 
 from game.game import Game, RoundState
+from game.settings import load_user_settings
 
 
 class GameScreen(Screen):
@@ -25,7 +26,11 @@ class GameScreen(Screen):
     )
 
     def on_mount(self) -> None:
-        self.game = Game(rounds_limit=5)
+        user_settings = load_user_settings()
+        self.game = Game(
+            rounds_limit=user_settings["rounds"],
+            player_name=user_settings["player_name"],
+        )
 
     @on(Button.Pressed, "#back-btn")
     def handle_back_button(self) -> None:

@@ -19,10 +19,10 @@ class Game:
     __round: int
     __rounds_limit: int
 
-    def __init__(self, rounds_limit: int = 5):
+    def __init__(self, rounds_limit: int = 5, player_name: str = "Player"):
         self.__round = 0
         self.__rounds_limit = rounds_limit
-        self.live_player = LivePlayer()
+        self.live_player = LivePlayer(name=player_name)
         self.computer_player = ComputerPlayer()
 
     def roll_round(self) -> RoundState:
