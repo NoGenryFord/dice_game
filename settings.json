@@ -1,0 +1,5 @@
+[
+    {"id": 1, "name": "Short", "rounds": 5},
+    {"id": 2, "name": "Medium", "rounds": 8},
+    {"id": 3, "name": "Long", "rounds": 10}
+]

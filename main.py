@@ -5,6 +5,7 @@ from textual.containers import ScrollableContainer
 
 from ui.score_screen import ScoreScreen
 from ui.game_screen import GameScreen
+from ui.setting_screen import SettingsScreen
 
 
 class MainMenu(Static):
@@ -18,6 +19,10 @@ class MainMenu(Static):
     def handle_view_scores_button(self) -> None:
         self.app.push_screen(ScoreScreen())
 
+    @on(Button.Pressed, "#settings-btn")
+    def handle_settings_button(self) -> None:
+        self.app.push_screen(SettingsScreen())
+
     @on(Button.Pressed, "#quit-btn")
     def handle_exit_button(self) -> None:
         self.app.exit()
@@ -25,6 +30,7 @@ class MainMenu(Static):
     def compose(self) -> ComposeResult:
         yield Button("Start Game", id="start-game-btn", variant="primary")
         yield Button("View Scores", id="view-scores-btn", variant="primary")
+        yield Button("Settings", id="settings-btn", variant="warning")
         yield Button("Exit Game", id="quit-btn", variant="error")
 
 

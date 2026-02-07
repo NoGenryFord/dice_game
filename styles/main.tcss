@@ -16,7 +16,7 @@
     border: solid ascii orange;
 }
 
-#start-game-btn, #view-scores-btn, #quit-btn{
+#start-game-btn, #view-scores-btn, #quit-btn, #settings-btn{
     margin: 1 2;
     width: 80%;
 }
